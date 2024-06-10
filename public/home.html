@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background: #f4f4f4;
+            text-align: center;
+        }
+
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        input[type="file"] {
+            margin: 10px 0;
+        }
+
+        button {
+            cursor: pointer;
+            background: #5cb85c;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background: #4cae4c;
+        }
+
+        #resultText {
+            margin-top: 20px;
+            padding: 20px;
+            background: #ddd;
+            display: inline-block;
+            width: auto;
+        }
+
+        #imagePreview {
+            margin-top: 20px;
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload Images</h1>
+    <form id="uploadForm">
+        <label for="image1">Image:</label>
+        <input type="file" id="image" name="image" accept="image/*" capture="environment" required><br><br>
+        
+        <button type="submit">Upload and Compare</button>
+    </form>
+
+    <h2>Image Preview:</h2>
+    <img id="imagePreview" src="#" alt="Image Preview" style="display: none;">
+    
+    <div id="result">
+        <h2>Result:</h2>
+        <p id="resultText"></p>
+    </div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+        
+            const image = document.getElementById('image').files[0];
+        
+            if (!image) {
+                alert('Please select image to upload.');
+                return;
+            }
+        
+            const formData = new FormData();
+            formData.append('image', image);
+        
+            try {
+                const response = await fetch('/process-images', {
+                    method: 'POST',
+                    body: formData
+                });
+        
+                if (!response.ok) {
+                    throw new Error('Failed to process images.');
+                }
+        
+                const result = await response.json();
+                if(result.jsonResponse.disease===undefined){
+                    document.getElementById('resultText').textContent = "Upload a Plant Image :)"
+                }
+                document.getElementById('resultText').textContent = result.jsonResponse.disease;
+            } catch (error) {
+                console.error(error);
+                alert('An error occurred while processing the images.');
+            }
+        });
+
+        document.getElementById('image').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('imagePreview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+    </script>
+</body>
+</html>
