@@ -1446,18 +1446,18 @@ footer {
   padding-top: 30px;
 }
 
-footer .social {
+.social {
   overflow: hidden;
   margin-top: 10px;
   text-align: center;
 }
 
-footer .social li {
+.social li {
   margin: 0px 10px;
   display: inline-block;
 }
 
-footer .social li a {
+.social li a {
   color: #55AD9B;
    text-align: center;
   background-color: #fff;
@@ -1473,7 +1473,7 @@ footer .social li a {
   transition: all 0.3s ease 0s;
 }
 
-footer .social li a:hover {
+.social li a:hover {
   background-color: #55AD9B;
   color: #fff;
 }

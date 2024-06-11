@@ -4,20 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Upload</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,300,400,500,700,900" rel="stylesheet">
+
+    <title>Nothing</title>
+
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+
+    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css">
+
+    <link rel="stylesheet" href="assets/css/templatemo-softy-pinko.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
             padding: 0;
-            background: #f4f4f4;
+            background: #55AD9B;
             text-align: center;
+            height: 100vh;
         }
 
         form {
-            background: #fff;
+            background: #95D2B3;
             padding: 20px;
             border-radius: 8px;
             display: inline-block;
+            width: 80vw;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            margin: auto;
         }
 
         input[type="file"] {
@@ -26,7 +41,7 @@
 
         button {
             cursor: pointer;
-            background: #5cb85c;
+            background: #55AD9B;
             color: #fff;
             border: none;
             padding: 10px 20px;
@@ -34,13 +49,13 @@
         }
 
         button:hover {
-            background: #4cae4c;
+            background: #95D2B3;
         }
 
         #resultText {
             margin-top: 20px;
             padding: 20px;
-            background: #ddd;
+            background: #ffffff;
             display: inline-block;
             width: auto;
         }
@@ -50,26 +65,94 @@
             max-width: 100%;
             height: auto;
         }
+
+        .btn {
+            text-decoration: none;
+            background-color: #005af0;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            outline: none;
+            transition: 0.3s;
+          }
+          
+          .btn:hover{
+            text-decoration: none;
+            background-color: #ffffff;
+            color: #005af0;
+            padding: 10px 20px;
+            border: none;
+            outline: 1px solid #010101;
+          }
+
+          .image-con{
+            height: 80%;
+            width: 80%;
+            border: #606060 dotted;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            margin: auto;
+          }
     </style>
 </head>
 <body>
-    <h1>Upload Images</h1>
-    <form id="uploadForm">
-        <label for="image1">Image:</label>
-        <input type="file" id="image" name="image" accept="image/*" capture="environment" required><br><br>
-        
-        <button type="submit">Upload and Compare</button>
-    </form>
 
-    <h2>Image Preview:</h2>
-    <img id="imagePreview" src="#" alt="Image Preview" style="display: none;">
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <a href="#" class="logo">
+                            <img src="assets/images/logo.png" alt="Prasad" style="height: 40px;"/>
+                        </a>
+                        <ul class="nav">
+                            <li><a href="#welcome" class="active">Home</a></li>
+                            <li><a href="#features">About</a></li>
+                            <li><a href="#work-process">Work Process</a></li>
+                            <li><a href="#blog">Blog Entries</a></li>
+                        </ul>
+                        <a class='menu-trigger'>
+                            <span>Menu</span>
+                        </a>
+                        <!-- ***** Menu End ***** -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <h1 style="margin-top:150px; margin-bottom:40px;">Upload Image</h1>
+    <form id="uploadForm">
+
+        <input type="file" hidden accept="image/*" id="image" name="image" capture="environment" style="display:none;" required>
+        <button class="btn" id="button" name="button">Choose File</button>
+
+        <div class="image-con">
+            <img id="imagePreview" src="#" alt="Image Preview" style="display: none;">
+        </div>
+
+        
+        <button type="submit" class="btn">Submit</button>
+        
+    </form>  
+
     
-    <div id="result">
+    <div id="result" style="display: none;">
         <h2>Result:</h2>
         <p id="resultText"></p>
     </div>
 
     <script>
+        const button = document.getElementById("button")
+
+        button.onclick = () => {
+            document.getElementById("image").click();
+          };
+          
+
         document.getElementById('uploadForm').addEventListener('submit', async function(event) {
             event.preventDefault();
         
@@ -95,8 +178,10 @@
         
                 const result = await response.json();
                 if(result.jsonResponse.disease===undefined){
+                    document.getElementById('result').style.display = "block";
                     document.getElementById('resultText').textContent = "Upload a Plant Image :)"
                 }
+                document.getElementById('result').style.display = "block";
                 document.getElementById('resultText').textContent = result.jsonResponse.disease;
             } catch (error) {
                 console.error(error);
@@ -118,5 +203,19 @@
         });
         
     </script>
+    <script src="assets/js/jquery-2.1.0.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="assets/js/popper.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+
+    <!-- Plugins -->
+    <script src="assets/js/scrollreveal.min.js"></script>
+    <script src="assets/js/waypoints.min.js"></script>
+    <script src="assets/js/jquery.counterup.min.js"></script>
+    <script src="assets/js/imgfix.min.js"></script> 
+    
+    <!-- Global Init -->
+    <script src="assets/js/custom.js"></script>
 </body>
 </html>
